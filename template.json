@@ -14,6 +14,7 @@
       "scripts": [
         "scripts/base.sh",
         "scripts/ssh.sh",
+        "scripts/docker.sh",
         "scripts/vagrant.sh",
         "scripts/virtualbox.sh",
         "scripts/zerodisk.sh"
