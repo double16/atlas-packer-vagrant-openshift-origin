@@ -1,13 +1,19 @@
-#!/bin/bash
+set -ux
 
-# Bail if we are not running inside VirtualBox.
-if [[ `facter virtual` != "virtualbox" ]]; then
-    exit 0
-fi
+#
+# packages need to install VBGA
+#
+yum -y install bzip2 perl kernel-devel-`uname -r` dkms gcc
+yum_rev=$(yum history stats | grep -E "^Transactions:" | cut -d : -f 2)
 
-mkdir -p /mnt/virtualbox
-mount -o loop /home/vagrant/VBoxGuest*.iso /mnt/virtualbox
-sh /mnt/virtualbox/VBoxLinuxAdditions.run
-ln -s /opt/VBoxGuestAdditions-*/lib/VBoxGuestAdditions /usr/lib/VBoxGuestAdditions
-umount /mnt/virtualbox
-rm -rf /home/vagrant/VBoxGuest*.iso
+VBOX_VERSION=$(cat /home/vagrant/.vbox_version)
+cd /tmp
+mount -o loop /home/vagrant/VBoxGuestAdditions_$VBOX_VERSION.iso /mnt
+sh /mnt/VBoxLinuxAdditions.run
+umount /mnt
+rm -rf /home/vagrant/VBoxGuestAdditions_*.iso
+
+#
+# remove the packages installed to build the guest additions
+#
+[[ -n "$yum_rev" ]] && yum -y history undo $yum_rev
