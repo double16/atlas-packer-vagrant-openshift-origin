@@ -34,7 +34,7 @@
 
       "guest_os_type": "Linux26_64",
       "headless": true,
-      "disk_size": 10240,
+      "disk_size": 12288,
       "http_directory": "http",
 
       "iso_url": "http://mirror.netcologne.de/centos/7/isos/x86_64/CentOS-7-x86_64-Minimal-1511.iso",
@@ -60,8 +60,8 @@
 
      "hard_drive_interface": "sata",
      "vboxmanage": [
-        [ "modifyvm", "{{.Name}}", "--memory", "1024" ],
-        [ "modifyvm", "{{.Name}}", "--cpus", "1" ]
+        [ "modifyvm", "{{.Name}}", "--memory", "2048" ],
+        [ "modifyvm", "{{.Name}}", "--cpus", "2" ]
       ]
     }
   ],

@@ -37,3 +37,4 @@ INSECURE_REGISTRY='--insecure-registry registry.access.redhat.com --insecure-reg
 EOF
 
 systemctl restart docker
+systemctl enable docker
