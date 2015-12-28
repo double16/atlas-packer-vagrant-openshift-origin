@@ -3,7 +3,7 @@ set -ux
 #
 # packages need to install VBGA
 #
-yum -y install bzip2 perl kernel-devel-`uname -r` dkms gcc
+yum -y install bzip2 perl kernel-devel-`uname -r` dkms gcc perl make gcc-c++
 yum_rev=$(yum history stats | grep -E "^Transactions:" | cut -d : -f 2)
 
 VBOX_VERSION=$(cat /home/vagrant/.vbox_version)

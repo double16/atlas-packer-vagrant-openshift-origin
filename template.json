@@ -29,57 +29,55 @@
   "builders": [
     {
       "type": "virtualbox-iso",
-      "virtualbox_version_file": ".vbox_version",
-      "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
-
-      "guest_os_type": "Linux26_64",
+      "boot_command": [
+        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg<enter><wait>"
+      ],
       "headless": true,
-      "disk_size": 12288,
+      "boot_wait": "10s",
+      "disk_size": 40520,
+      "guest_os_type": "RedHat_64",
       "http_directory": "http",
-
       "iso_url": "http://mirror.netcologne.de/centos/7/isos/x86_64/CentOS-7-x86_64-Minimal-1511.iso",
       "iso_checksum": "f90e4d28fa377669b2db16cbcb451fcb9a89d2460e3645993e30e137ac37d284",
       "iso_checksum_type": "sha256",
-
       "ssh_username": "vagrant",
       "ssh_password": "vagrant",
       "ssh_port": 22,
-      "ssh_wait_timeout": "30m",
-      "shutdown_command": "echo 'vagrant'| sudo -S /sbin/poweroff",
-
-      "boot_wait": "10s",
-      "boot_command": [
-        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/kickstart.cfg<enter>",
-        "<wait10><wait10><wait10>","<wait10><wait10><wait10>",
-        "<wait10><wait10><wait10>","<wait10><wait10><wait10>",
-        "<wait10><wait10><wait10>","<wait10><wait10><wait10>",
-        "<wait10><wait10><wait10>","<wait10><wait10><wait10>",
-        "<wait10><wait10><wait10>","<wait10><wait10><wait10>",
-        "<wait10><wait10><wait10>","<wait10><wait10><wait10>"
-      ],
-
-     "hard_drive_interface": "sata",
-     "vboxmanage": [
+      "ssh_wait_timeout": "10000s",
+      "shutdown_command": "echo '/sbin/halt -h -p' > /tmp/shutdown.sh; echo 'vagrant'|sudo -S sh '/tmp/shutdown.sh'",
+      "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
+      "virtualbox_version_file": ".vbox_version",
+      "vboxmanage": [
         [ "modifyvm", "{{.Name}}", "--memory", "2048" ],
         [ "modifyvm", "{{.Name}}", "--cpus", "2" ]
       ]
     }
+
   ],
   "post-processors": [
-    [{
-      "type": "vagrant",
-      "keep_input_artifact": false
-    },
-    {
-      "type": "atlas",
-      "only": ["virtualbox-iso"],
-      "artifact": "{{user `atlas_user`}}/{{user `atlas_box`}}",
-      "artifact_type": "vagrant.box",
-      "metadata": {
-        "provider": "virtualbox",
-        "description": "[CentOS](http://centos.org) v7.1.1503 x86_64",
-        "version": "1.1.3"
-      }
-    }]
-  ]
-}
+    [
+      {
+        "type": "vagrant",
+        "keep_input_artifact": false,
+        "override": {
+          "virtualbox": {
+            "output": "centos-7-1-x64-virtualbox.box"
+          },
+          "vmware": {
+            "output": "centos-7-1-x64-vmware.box"
+          }
+        }
+      },
+      {
+        "type": "atlas",
+        "only": ["virtualbox-iso"],
+        "artifact": "{{user `atlas_user`}}/{{user `atlas_box`}}",
+        "artifact_type": "vagrant.box",
+        "metadata": {
+          "provider": "virtualbox",
+          "description": "[OpenShift](http://openshift.org) Origin 1.1 on [CentOS](http://centos.org) v7.1.1511 x86_64",
+          "version": "1.0.0"
+        }
+        }]
+      ]
+    }
