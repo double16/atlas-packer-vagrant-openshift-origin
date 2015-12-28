@@ -5,8 +5,8 @@
     "vcs": true
   },
   "variables": {
-    "atlas_user": "{{env `ATLAS_USER_NAME`}}",
-    "atlas_box": "{{env `ATLAS_BOX_NAME`}}"
+    "atlas_user": "goern",
+    "atlas_box": "openshift-origin"
   },
   "provisioners": [
     {
@@ -32,7 +32,7 @@
       "boot_command": [
         "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg<enter><wait>"
       ],
-      "headless": true,
+      "headless": false,
       "boot_wait": "10s",
       "disk_size": 40520,
       "guest_os_type": "RedHat_64",
@@ -51,8 +51,32 @@
         [ "modifyvm", "{{.Name}}", "--memory", "2048" ],
         [ "modifyvm", "{{.Name}}", "--cpus", "2" ]
       ]
+    },
+    {
+      "type": "vmware-iso",
+      "boot_command": [
+        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg<enter><wait>"
+      ],
+      "headless": false,
+      "boot_wait": "10s",
+      "disk_size": 40520,
+      "guest_os_type": "RedHat_64",
+      "http_directory": "http",
+      "iso_url": "http://mirror.netcologne.de/centos/7/isos/x86_64/CentOS-7-x86_64-Minimal-1511.iso",
+      "iso_checksum": "f90e4d28fa377669b2db16cbcb451fcb9a89d2460e3645993e30e137ac37d284",
+      "iso_checksum_type": "sha256",
+      "ssh_username": "vagrant",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_wait_timeout": "10000s",
+      "shutdown_command": "echo '/sbin/halt -h -p' > /tmp/shutdown.sh; echo 'vagrant'|sudo -S sh '/tmp/shutdown.sh'",
+      "tools_upload_flavor": "linux",
+      "vmx_data": {
+        "memsize": "2048",
+        "numvcpus": "2",
+        "cpuid.coresPerSocket": "1"
+      }
     }
-
   ],
   "post-processors": [
     [
@@ -61,10 +85,10 @@
         "keep_input_artifact": false,
         "override": {
           "virtualbox": {
-            "output": "centos-7-1-x64-virtualbox.box"
+            "output": "openshift-origin-1-1-centos-7-1-x64-virtualbox.box"
           },
           "vmware": {
-            "output": "centos-7-1-x64-vmware.box"
+            "output": "openshift-origin-1-1-centos-7-1-x64-vmware.box"
           }
         }
       },
