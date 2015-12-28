@@ -1,5 +1,5 @@
 {
-  "description": "OpenShift Origin 3 based on CentOS 7 x86_64",
+  "description": "OpenShift Origin based on CentOS 7 x86_64",
   "push": {
     "name": "goern/openshift-origin",
     "vcs": true
@@ -15,6 +15,7 @@
         "scripts/base.sh",
         "scripts/ssh.sh",
         "scripts/docker.sh",
+        "scripts/openshift-origin.sh",
         "scripts/vagrant.sh",
         "scripts/virtualbox.sh",
         "scripts/zerodisk.sh"
@@ -32,7 +33,7 @@
       "boot_command": [
         "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg<enter><wait>"
       ],
-      "headless": false,
+      "headless": true,
       "boot_wait": "10s",
       "disk_size": 40520,
       "guest_os_type": "RedHat_64",
@@ -100,7 +101,7 @@
         "metadata": {
           "provider": "virtualbox",
           "description": "[OpenShift](http://openshift.org) Origin 1.1 on [CentOS](http://centos.org) v7.1.1511 x86_64",
-          "version": "1.0.0"
+          "version": "1.0.1"
         }
         }]
       ]
