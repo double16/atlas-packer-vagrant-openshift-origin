@@ -73,7 +73,7 @@
         "metadata": {
           "provider": "virtualbox",
           "description": "[OpenShift](http://openshift.org) Origin 1.1 on [CentOS](http://centos.org) v7.1.1511 x86_64",
-          "version": "1.0.1"
+          "version": "1.0.2"
         }
         }]
       ]
