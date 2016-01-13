@@ -101,10 +101,10 @@ cache_image() {
 ########################################################################
 # Pre-pull some images in order to speed up the OpenShift out of the box experience
 # See also https://github.com/projectatomic/adb-atomic-developer-bundle/issues/160
-cache_image openshift3/ose-pod:${OSE_VERSION}
-cache_image openshift3/ose-haproxy-router:${OSE_VERSION}
-cache_image openshift3/ose-docker-registry:${OSE_VERSION}
-cache_image openshift3/ose-sti-builder:${OSE_VERSION}
+#cache_image openshift/ose-pod:${OSE_VERSION}
+#cache_image openshift/ose-haproxy-router:${OSE_VERSION}
+#cache_image openshift/ose-docker-registry:${OSE_VERSION}
+#cache_image openshift/ose-sti-builder:${OSE_VERSION}
 
 # Copy OpenShift CLI tools to the VM
 binaries=(oc oadm)
